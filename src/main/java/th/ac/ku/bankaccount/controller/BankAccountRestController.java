@@ -17,6 +17,11 @@ public class BankAccountRestController {
         this.bankAccountRepository = bankAccountRepository;
     }
 
+    @GetMapping("/customer/{customerId}")
+    public List<BankAccount> getAllCustomerId(@PathVariable int customerId) {
+        return bankAccountRepository.findByCustomerId(customerId);
+    }
+
     @GetMapping
     public List<BankAccount> getAll() {
         return bankAccountRepository.findAll();
