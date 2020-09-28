@@ -50,4 +50,12 @@ public class BankAccountRestController {
         bankAccountRepository.save(record);
         return record;
     }
+
+    @DeleteMapping("/{id")
+    public BankAccount delete(@PathVariable int id) {
+        BankAccount record = bankAccountRepository.findById(id).get();
+        bankAccountRepository.deleteById(id);
+        return record;
+    }
+
 }
