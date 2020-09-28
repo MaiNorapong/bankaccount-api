@@ -1,9 +1,6 @@
 package th.ac.ku.bankaccount.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import th.ac.ku.bankaccount.data.BankAccountRepository;
 import th.ac.ku.bankaccount.model.BankAccount;
 
@@ -32,5 +29,11 @@ public class BankAccountRestController {
         } catch (NoSuchElementException e) {
             return null;
         }
+    }
+
+    @PostMapping
+    public BankAccount create(@RequestBody BankAccount bankAccount) {
+        bankAccountRepository.save(bankAccount);
+        return bankAccountRepository.findById(bankAccount.getId()).get();
     }
 }
