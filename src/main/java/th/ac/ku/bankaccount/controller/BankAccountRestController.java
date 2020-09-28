@@ -36,4 +36,13 @@ public class BankAccountRestController {
         bankAccountRepository.save(bankAccount);
         return bankAccountRepository.findById(bankAccount.getId()).get();
     }
+
+    @PutMapping("/{id}")
+    public BankAccount update(@PathVariable int id,
+                              @RequestBody BankAccount bankAccount) {
+        BankAccount record = bankAccountRepository.findById(id).get();
+        record.setBalance(bankAccount.getBalance());
+        bankAccountRepository.save(record);
+        return record;
+    }
 }
