@@ -11,26 +11,26 @@ import java.util.NoSuchElementException;
 @RequestMapping("api/bankaccount")
 public class BankAccountRestController {
 
-    private BankAccountRepository bankAccountRepository;
+    private BankAccountRepository repository;
 
     public BankAccountRestController(BankAccountRepository bankAccountRepository) {
-        this.bankAccountRepository = bankAccountRepository;
+        this.repository = bankAccountRepository;
     }
 
     @GetMapping("/customer/{customerId}")
     public List<BankAccount> getAllCustomerId(@PathVariable int customerId) {
-        return bankAccountRepository.findByCustomerId(customerId);
+        return repository.findByCustomerId(customerId);
     }
 
     @GetMapping
     public List<BankAccount> getAll() {
-        return bankAccountRepository.findAll();
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public BankAccount getOne(@PathVariable int id) {
         try {
-            return bankAccountRepository.findById(id).get();
+            return repository.findById(id).get();
         } catch (NoSuchElementException e) {
             return null;
         }
@@ -38,23 +38,23 @@ public class BankAccountRestController {
 
     @PostMapping
     public BankAccount create(@RequestBody BankAccount bankAccount) {
-        bankAccountRepository.save(bankAccount);
-        return bankAccountRepository.findById(bankAccount.getId()).get();
+        repository.save(bankAccount);
+        return repository.findById(bankAccount.getId()).get();
     }
 
     @PutMapping("/{id}")
     public BankAccount update(@PathVariable int id,
                               @RequestBody BankAccount bankAccount) {
-        BankAccount record = bankAccountRepository.findById(id).get();
+        BankAccount record = repository.findById(id).get();
         record.setBalance(bankAccount.getBalance());
-        bankAccountRepository.save(record);
+        repository.save(record);
         return record;
     }
 
     @DeleteMapping("/{id")
     public BankAccount delete(@PathVariable int id) {
-        BankAccount record = bankAccountRepository.findById(id).get();
-        bankAccountRepository.deleteById(id);
+        BankAccount record = repository.findById(id).get();
+        repository.deleteById(id);
         return record;
     }
 
