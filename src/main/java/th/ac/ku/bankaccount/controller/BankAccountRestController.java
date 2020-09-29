@@ -51,7 +51,7 @@ public class BankAccountRestController {
         return record;
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public BankAccount delete(@PathVariable int id) {
         BankAccount record = repository.findById(id).get();
         repository.deleteById(id);
