@@ -1,8 +1,12 @@
 package th.ac.ku.bankaccount.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.SpringServletContainerInitializer;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import th.ac.ku.bankaccount.data.BankAccountRepository;
 import th.ac.ku.bankaccount.model.BankAccount;
+import th.ac.ku.bankaccount.model.Money;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -45,10 +49,13 @@ public class BankAccountRestController {
     @PutMapping("/{id}")
     public BankAccount update(@PathVariable int id,
                               @RequestBody BankAccount bankAccount) {
-        BankAccount record = repository.findById(id).get();
-        record.setBalance(bankAccount.getBalance());
-        repository.save(record);
-        return record;
+        throw new ResponseStatusException(
+                HttpStatus.FORBIDDEN, "Cannot edit balance directly"
+        );
+//        BankAccount record = repository.findById(id).get();
+//        record.setBalance(bankAccount.getBalance());
+//        repository.save(record);
+//        return record;
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +63,30 @@ public class BankAccountRestController {
         BankAccount record = repository.findById(id).get();
         repository.deleteById(id);
         return record;
+    }
+
+    @PostMapping("/deposit/{id}")
+    public BankAccount deposit(@PathVariable int id,
+                               @RequestBody Money money) {
+        System.out.println(money);
+        BankAccount bankAccount = repository.findById(id).get();
+        bankAccount.deposit(money.getAmount());
+        repository.save(bankAccount);
+        return bankAccount;
+    }
+
+    @PostMapping("/withdraw/{id}")
+    public BankAccount withdraw(@PathVariable int id,
+                                @RequestBody Money money) {
+        BankAccount bankAccount = repository.findById(id).get();
+        try {
+            bankAccount.withdraw(money.getAmount());
+            repository.save(bankAccount);
+            return bankAccount;
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Not enough money in account", e);
+        }
     }
 
 }

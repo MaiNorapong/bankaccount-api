@@ -57,4 +57,15 @@ public class BankAccount {
                 ", balance=" + balance +
                 '}';
     }
+
+    public void deposit(double amount) {
+        balance = balance + amount;
+    }
+
+    public void withdraw(double amount) {
+        if (amount > balance) {
+            throw new RuntimeException("Cannot withdraw " + amount + " with balance=" + balance);
+        }
+        balance = balance - amount;
+    }
 }
