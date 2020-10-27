@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>th.ac.ku</groupId>
 	<artifactId>bankaccount</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.8.6.RELEASE</version>
 	<name>bankaccount</name>
 	<description>Bank Account API Service</description>
 
